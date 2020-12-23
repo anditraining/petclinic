@@ -18,20 +18,17 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Appointment {
 	
 	@Id
-	@NotEmpty
 	private int id;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	@NotEmpty
 	@Column
-    private Date appointmentDate = new Date();
+    private Date appointmentDate;
 	
 	@Size(max = 8192)
 	@NotEmpty
 	@Column
 	private String description;
 	
-	@NotEmpty
 	@Column
 	private int petId;
 
