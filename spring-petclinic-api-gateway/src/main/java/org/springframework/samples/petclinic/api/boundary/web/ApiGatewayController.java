@@ -16,14 +16,20 @@
 package org.springframework.samples.petclinic.api.boundary.web;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreaker;
 import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreakerFactory;
 import org.springframework.samples.petclinic.api.application.CustomersServiceClient;
+import org.springframework.samples.petclinic.api.application.HospitalServiceClient;
 import org.springframework.samples.petclinic.api.application.VisitsServiceClient;
+import org.springframework.samples.petclinic.api.dto.Appointment;
 import org.springframework.samples.petclinic.api.dto.OwnerDetails;
 import org.springframework.samples.petclinic.api.dto.Visits;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
@@ -42,6 +48,9 @@ public class ApiGatewayController {
     private final CustomersServiceClient customersServiceClient;
 
     private final VisitsServiceClient visitsServiceClient;
+    
+    @Autowired
+    private HospitalServiceClient hospitalServiceClient;
 
     private final ReactiveCircuitBreakerFactory cbFactory;
 
@@ -57,6 +66,16 @@ public class ApiGatewayController {
                     .map(addVisitsToOwner(owner))
             );
 
+    }
+    
+    @GetMapping(value = "appointment/{id}")
+    public Mono<Appointment> getAppointment(final @PathVariable int id) {
+        return hospitalServiceClient.getAppointment(id);
+    }
+    
+    @PostMapping(value = "appointment")
+    public Mono<Appointment> makeAppointment(@RequestBody Appointment appointment) {
+        return hospitalServiceClient.makeAppointment(appointment);
     }
 
     private Function<Visits, OwnerDetails> addVisitsToOwner(OwnerDetails owner) {

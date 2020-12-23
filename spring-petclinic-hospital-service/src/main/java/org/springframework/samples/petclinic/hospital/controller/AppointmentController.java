@@ -32,15 +32,14 @@ public class AppointmentController {
 	@Autowired
 	AppointmentService service;
 	
-	@PostMapping("/")
+	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	private int saveAppointment(@RequestBody Appointment appointment) {
+	private Appointment saveAppointment(@RequestBody Appointment appointment) {
 		service.saveOrUpdate(appointment);
-		return appointment.getId();
+		return appointment;
 	}
 	
-	@PutMapping("/")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@PutMapping
 	private Appointment update(@RequestBody Appointment appointment) {
 		service.saveOrUpdate(appointment);
 		return appointment;
@@ -55,7 +54,7 @@ public class AppointmentController {
 		return appointment.get();
 	}
 	
-	@GetMapping("/")
+	@GetMapping
 	private List<Appointment> getAllAppointment() {
 		return service.getAllAppointment();
 	}

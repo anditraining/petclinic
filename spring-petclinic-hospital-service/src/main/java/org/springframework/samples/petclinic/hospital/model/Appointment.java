@@ -21,7 +21,7 @@ public class Appointment {
 	private int id;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	@Column
+	@Column(name = "appointment_date")
     private Date appointmentDate;
 	
 	@Size(max = 8192)
@@ -29,7 +29,7 @@ public class Appointment {
 	@Column
 	private String description;
 	
-	@Column
+	@Column(name = "pet_id")
 	private int petId;
 
 	public int getId() {

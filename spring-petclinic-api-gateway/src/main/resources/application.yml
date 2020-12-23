@@ -23,3 +23,9 @@ spring:
             - Path=/api/customer/**
           filters:
             - StripPrefix=2
+        - id: hospital-service
+          uri: lb://hospital-service
+          predicates:
+            - Path=/api/hospital/**
+          filters:
+            - StripPrefix=2
